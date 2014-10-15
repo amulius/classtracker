@@ -34,35 +34,38 @@ def home(request):
     if request.user.is_student:
         current_time = datetime.datetime.now().time()
         today = datetime.datetime.now().date()
-        checked_in = []
+        has_checked_in = []
         courses = Course.objects.filter(students=request.user, start_time__lte=current_time, end_time__gte=current_time)
         if courses:
-            checked_in = CheckIn.objects.filter(student=request.user, course=courses[0], date=today)
+            has_checked_in = CheckIn.objects.filter(student=request.user, course=courses[0], date=today)
         data = {
             'courses': courses,
-            'checked_in': checked_in,
+            'checked_in': has_checked_in,
             'time': current_time
         }
         return render(request, 'student_home.html', data)
     else:
         current_time = datetime.datetime.now().time()
-        print current_time
-        current_course = Course.objects.filter(teacher=request.user, start_time__lte=current_time, end_time__gte=current_time)[0]
-        # current_status = {}
-        # for student in User.objects.filter(student_courses=current_course):
-
+        today = datetime.datetime.now().date()
+        current_course = Course.objects.filter(teacher=request.user, start_time__lte=current_time, end_time__gte=current_time)
+        current_status = []
+        if current_course:
+            for student in User.objects.filter(student_courses=current_course[0]):
+                current_status.append({
+                    'student': student.username,
+                    'logged_in': CheckIn.objects.filter(student=student, course=current_course[0], date=today)
+                })
         courses_today = Course.objects.filter(teacher=request.user)
         data = {
-            'current_course': current_course,
-            'courses_today': courses_today
+            'current_course': current_course[0],
+            'courses_today': courses_today,
+            'current_status': current_status
         }
         return render(request, 'teacher_home.html', data)
 
 
 @csrf_exempt
 def new_check_in(request):
-    print "check in"
-    print request.method
     if request.method == 'POST':
         data = json.loads(request.body)
         student = User.objects.get(username=data['student'])
