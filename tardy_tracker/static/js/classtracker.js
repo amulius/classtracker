@@ -27,13 +27,15 @@ $(document).ready(function() {
             data: datas,
             success: function(response) {
                 console.log(response);
-                if (response=="in") {
+                if (response['message']=="in") {
                     $('#pcheckin').html("Checked In!");
                     $("#checkIn").hide();
+                    $('#total').html("Total Checkin's for "+currentCourse+'='+response['count']);
                 }
-                if (response=="already_in") {
+                if (response['message']=="already_in") {
                     $('#pcheckin').html("Already Checked In!");
                     $("#checkIn").hide();
+                    $('#total').html("Total Checkin's for "+currentCourse+'='+response['count']);
                 }
             },
             error: function(response) {

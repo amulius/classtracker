@@ -57,13 +57,23 @@ def checkin(request):
         course = Course.objects.get(name=data['course'])
         student = User.objects.get(username=stu)
         #print course.pk,student.pk,'chk'
-        testcheckin = CheckIn.objects.filter(student=student, course=course)
+        testcheckin = CheckIn.objects.filter(student=student, course=course).count()
         print testcheckin,'test'
         if testcheckin:
-            return HttpResponse('already_in')
+            data = {'count':testcheckin,'message':'already_in'}
+            #response = serializers.serialize('json', {data})
+            response = json.dumps(data)
+            return HttpResponse(response, content_type='application/json')
+
+           # return HttpResponse('already_in')
         else :
             check_in = CheckIn.objects.create(student=student, course=course)
-            return HttpResponse('in')
+            testcheckin+=1
+            data = {'count':testcheckin,'message':'in'}
+            #response = serializers.serialize('json', {data})
+            response = json.dumps(data)
+            return HttpResponse(response, content_type='application/json')
+            #return HttpResponse('in')
         #print check_in.pk,'chkin'
 
    # response = serializers.serialize('json', {check_in})
