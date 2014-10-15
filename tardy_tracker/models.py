@@ -25,7 +25,8 @@ class Course(models.Model):
 class CheckIn(models.Model):
     student = models.ForeignKey(User, related_name="check_ins")
     course = models.ForeignKey(Course, related_name="check_ins")
-    date = models.DateTimeField(auto_now_add=True)
+    time = models.TimeField(auto_now_add=True)
+    date = models.DateField(auto_now_add=True)
 
     def __unicode__(self):
         return u"{} {} {}".format(self.course, self.student, self.date)
