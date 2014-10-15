@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Welcome, {{ user.first_name|capfirst }} {{ user.last_name|capfirst }}</h1>
+<hr>
+<h3>Here are a list of the courses you teach:</h3>
+{% for course in courses %}
+    <li><h4>{{ course.name }}</h4></li>
+{% endfor %}
+{% endblock content %}
