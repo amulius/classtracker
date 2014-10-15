@@ -1,10 +1,10 @@
 import datetime
 import json
-from django.core import serializers
+
 from django.http import HttpResponse
 from django.shortcuts import render
-import time
 from django.views.decorators.csrf import csrf_exempt
+
 from tardy_tracker.models import Course, CheckIn, User
 
 
@@ -46,18 +46,29 @@ def home(request):
         }
         return render(request, 'teacher_home.html', data)
 
+from django.db.models import Count
+
 
 @csrf_exempt
 def checkin(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        #print(data['course'],data['student'])
+        print(data['course'],data['student'])
         stu = (data['student']).lower()# i m seeing username=Manil instead of manil
-        #print stu,'stu'
+        print stu,'stu'
         course = Course.objects.get(name=data['course'])
         student = User.objects.get(username=stu)
         #print course.pk,student.pk,'chk'
         testcheckin = CheckIn.objects.filter(student=student, course=course).count()
+        testme = CheckIn.objects.filter(course=course).values('student').annotate(dcount=Count('student')).order_by('-dcount')[0]
+        # crs = Course.objects.get(id=1)
+        # print crs.name
+        # for each in testme:
+        #      obj = User.objects.get(id= each['student'])
+        #      each['student'] = obj.name
+        #      print  each['course']
+        print testme,'testme'
+        #res = json.stringify({"testme": testme});
         print testcheckin,'test'
         if testcheckin:
             data = {'count':testcheckin,'message':'already_in'}
