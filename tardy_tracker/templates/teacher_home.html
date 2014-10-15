@@ -1,7 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-Landing page for the teacher
+<h1>Welcome, {{ user.first_name|capfirst }} {{ user.last_name|capfirst }}</h1>
+<hr>
+    {% if courses %}
+    {% else %}
+        <p>You have no class at this time today.</p>
+    {% endif %}
 {% for course in courses %}
     <li>{{ course.name }}</li>
 {% endfor %}
