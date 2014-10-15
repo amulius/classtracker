@@ -43,7 +43,8 @@ class Migration(migrations.Migration):
             name='CheckIn',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('date', models.DateTimeField(auto_now_add=True)),
+                ('time', models.TimeField(auto_now_add=True)),
+                ('date', models.DateField(auto_now_add=True)),
             ],
             options={
             },
@@ -53,9 +54,9 @@ class Migration(migrations.Migration):
             name='Course',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.TextField(max_length=100)),
-                ('start_time', models.DateTimeField()),
-                ('end_time', models.DateTimeField()),
+                ('name', models.CharField(max_length=100)),
+                ('start_time', models.TimeField(null=True)),
+                ('end_time', models.TimeField(null=True)),
                 ('students', models.ManyToManyField(related_name=b'student_courses', to=settings.AUTH_USER_MODEL)),
                 ('teacher', models.ForeignKey(related_name=b'teacher_courses', to=settings.AUTH_USER_MODEL)),
             ],
