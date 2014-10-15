@@ -1,8 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-Landing page for the teacher
-{% for course in courses %}
-    <li>{{ course.name }}</li>
-{% endfor %}
+<h1>Welcome, {{ user.first_name|capfirst }} {{ user.last_name|capfirst }}</h1>
+<hr>
+    {% if current_course %}
+        <p>Check in list for <strong>{{ current_course.name }}</strong></p>
+        {% for thing in current_status %}
+        <tr><td>{{ thing.student }} </td>
+            <td>{% if thing.logged_in %}checked in{% else %}not checked in{% endif %}</td></tr>
+        {% endfor %}
+    {% else %}
+        <p>You have no class at this time today.</p>
+    {% endif %}
+{#{% for course in courses %}#}
+{#    <li>{{ course.name }}</li>#}
+{#{% endfor %}#}
 {% endblock content %}
