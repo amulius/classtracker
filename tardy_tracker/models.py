@@ -15,8 +15,8 @@ class Course(models.Model):
     name = models.CharField(max_length=100)
     students = models.ManyToManyField(User, related_name="student_courses")
     teacher = models.ForeignKey(User, related_name="teacher_courses")
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
+    start_time = models.TimeField(null=True)
+    end_time = models.TimeField(null=True)
 
     def __unicode__(self):
         return u"{}".format(self.name)
