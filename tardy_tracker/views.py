@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 import time
 from django.views.decorators.csrf import csrf_exempt
-from tardy_tracker.models import Course, CheckIn
+from tardy_tracker.models import Course, CheckIn, User
 
 
 def base(request):
@@ -48,11 +48,23 @@ def home(request):
 
 
 @csrf_exempt
-def new_check_in(request):
+def checkin(request):
     if request.method == 'POST':
-        print(request.body)
         data = json.loads(request.body)
-        print(data)
-        check_in = CheckIn.objects.create(data)
-    response = serializers.serialize('json', {check_in})
-    return HttpResponse(response, content_type='application/json')
+        #print(data['course'],data['student'])
+        stu = (data['student']).lower()# i m seeing username=Manil instead of manil
+        #print stu,'stu'
+        course = Course.objects.get(name=data['course'])
+        student = User.objects.get(username=stu)
+        #print course.pk,student.pk,'chk'
+        testcheckin = CheckIn.objects.filter(student=student, course=course)
+        print testcheckin,'test'
+        if testcheckin:
+            return HttpResponse('already_in')
+        else :
+            check_in = CheckIn.objects.create(student=student, course=course)
+            return HttpResponse('in')
+        #print check_in.pk,'chkin'
+
+   # response = serializers.serialize('json', {check_in})
+   # return HttpResponse(response, content_type='application/json')

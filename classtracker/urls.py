@@ -7,7 +7,7 @@ urlpatterns = patterns('',
     url(r'^home/$', 'tardy_tracker.views.home', name='home'),
     url(r'^login/$', 'django.contrib.auth.views.login', name='login'),
     url(r'^logout/$', 'django.contrib.auth.views.logout', name='logout'),
-    url(r'^checkin/$', 'tardy_tracker.views.new_check_in', name='check_in'),
+    url(r'^checkin/$', 'tardy_tracker.views.checkin', name='checkin'),
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^teacher/$', 'tardy_tracker.views.teacher_home', name='teacher_home'),
