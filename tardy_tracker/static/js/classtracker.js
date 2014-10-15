@@ -6,42 +6,27 @@ $(document).ready(function() {
 
     $('#checkIn').on('click', function () {
 
+        var currentUser = $('#currentUser').data('username');
+        var currentCourse = $('#currentCourse').data('course');
 
-        //console.log("hi");
-        currentUser = $('#currentUser').text();
-        currentCourse = $('#currentCourse').text();
-        console.log(currentUser,currentCourse,'User');
-
-        datas = {
-            "student": currentUser,
-            "course": currentCourse
+        var datas = {
+            student: currentUser,
+            course: currentCourse
         };
-
-        //console.log(datas);
         datas = JSON.stringify(datas);
-
         $.ajax({
             url: '/checkin/',
             type: 'POST',
-           // dataType: 'json',
+            dataType: 'json',
             data: datas,
             success: function(response) {
                 console.log(response);
-                if (response['message']=="in") {
-                    $('#pcheckin').html("Checked In!");
-                    $("#checkIn").hide();
-                    $('#total').html("Total Checkin's for "+currentCourse+'='+response['count']);
-                }
-                if (response['message']=="already_in") {
-                    $('#pcheckin').html("Already Checked In!");
-                    $("#checkIn").hide();
-                    $('#total').html("Total Checkin's for "+currentCourse+'='+response['count']);
-                }
+                $('#checkInButton').html("Checked In!");
+
             },
             error: function(response) {
                 console.log(response);
             }
         });
     });
-
 });

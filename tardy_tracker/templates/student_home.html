@@ -3,9 +3,20 @@
 {% block content %}
 <h1>Welcome, {{ user.first_name|capfirst }} {{ user.last_name|capfirst }}</h1>
 <hr>
-<h3>Check in for:</h3>
-    <h4 id="currentCourse">{{ courses.0.name }}</h4>
-    <button id="checkIn">Check In</button>
-    <p id="pcheckin"></p>
-    <p id="total"></p>
+
+    <p>The time is {{ time }}</p>
+    {% if courses %}
+        <p>Test</p>
+        {% if has_checked_in %}
+            <p>You have already checked in for {{ courses.0.name }} today.</p>
+        {% else %}
+            <div id="checkInButton">
+            <h3>Check in for:</h3>
+            <h4 id="currentCourse" data-course="{{ courses.0.name }}">{{ courses.0.name }}</h4>
+            <button id="checkIn" >Check In</button>
+            </div>
+        {% endif %}
+    {% else %}
+        <p>You have no class at this time today.</p>
+    {% endif %}
 {% endblock content %}
