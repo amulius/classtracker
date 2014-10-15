@@ -7,8 +7,8 @@
     {% if courses %}
         {% if not checked_in %}
             <h3>Check in for:</h3>
-            <h4 id="currentCourse">{{ courses.0.name }}</h4>
-            <button id="checkIn">Check In</button>
+            <h4 id="currentCourse" data-course="{{ courses.0.name }}">{{ courses.0.name }}</h4>
+            <span id="checkInButton"><button id="checkIn" >Check In</button></span>
         {% else %}
             <p>You have already checked in for {{ courses.0.name }} today.</p>
         {% endif %}

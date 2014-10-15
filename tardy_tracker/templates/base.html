@@ -7,7 +7,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="{% static 'js/bootstrap.js' %}"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/classtracker.js' %}"></script>
+{#    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">#}
 
     {% block css %}
     {% endblock %}
@@ -37,7 +38,7 @@
       </form>
       <ul class="nav navbar-nav navbar-right">
         {% if user.is_authenticated %}
-        <li><a href="#">{{ user.username|capfirst }}</a></li>
+        <li id="currentUser" data-username="{{ user.username }}"><a href="#">{{ user.username|capfirst }}</a></li>
         <li><a href="{% url 'logout' %}">Logout</a></li>
         {% else %}
         <li><a href="{% url 'login' %}">Login</a></li>

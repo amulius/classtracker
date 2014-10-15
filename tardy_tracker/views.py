@@ -1,7 +1,11 @@
 import datetime
+import json
+from django.core import serializers
+from django.http import HttpResponse
 from django.shortcuts import render
 import time
-from tardy_tracker.models import Course, CheckIn
+from django.views.decorators.csrf import csrf_exempt
+from tardy_tracker.models import Course, CheckIn, User
 
 
 def base(request):
@@ -49,3 +53,20 @@ def home(request):
         return render(request, 'teacher_home.html', data)
 
 
+@csrf_exempt
+def new_check_in(request):
+    print "check in"
+    print request.method
+    if request.method == 'POST':
+        # print request.body
+        # print request.body['student']
+        data = json.loads(request.body)
+        student = User.objects.get(username=data['student'])
+        print student
+        course = Course.objects.get(name=data['course'])
+        print course
+        # check_in = CheckIn(course=course, student=student)
+        check_in = CheckIn.objects.create(course=course, student=student)
+        print check_in
+    response = serializers.serialize('json', {check_in})
+    return HttpResponse(response, content_type='application/json')
