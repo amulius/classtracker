@@ -8,7 +8,7 @@ $(document).ready(function () {
 
         var currentUser = $('#currentUser').data('username');
         var currentCourse = $('#currentCourse').data('course');
-        var thisCourse = currentCourse
+        var thisCourse = currentCourse;
         var datas = {
             student: currentUser,
             course: currentCourse
@@ -21,7 +21,7 @@ $(document).ready(function () {
             data: datas,
             success: function (response) {
                 console.log(response);
-                var total = 'Total Checkins for ' + currentCourse + '=' + response['checkin_total'];
+                var total = 'Total Checkins for ' + currentCourse + ' is: ' + response['checkin_total'];
                 var chartData = response['chart_data'];
                 console.log(chartData, 'total');
                 $('#checkInButton').html("Checked In!");
@@ -101,7 +101,7 @@ $(document).ready(function () {
                         d3.select(this)
                             .style('opacity', 1)
                             .style('fill', tempColor)
-                    })
+                    });
 
 
                 myChart.transition()
