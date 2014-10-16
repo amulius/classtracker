@@ -3,12 +3,6 @@
 {% block content %}
 <h1>Welcome, {{ user.first_name|capfirst }} {{ user.last_name|capfirst }}</h1>
 <hr>
-<<<<<<< HEAD
-<h3>Here are a list of the courses you teach:</h3>
-{% for course in courses %}
-    <li><h4>{{ course.name }}</h4></li>
-{% endfor %}
-=======
     {% if current_course %}
         <p>Check in list for <strong>{{ current_course.name }}</strong></p>
         {% for thing in current_status %}
@@ -18,8 +12,4 @@
     {% else %}
         <p>You have no class at this time today.</p>
     {% endif %}
-{#{% for course in courses %}#}
-{#    <li>{{ course.name }}</li>#}
-{#{% endfor %}#}
->>>>>>> 5f17eb498b751951f163bfa18e34850cb6f6f358
 {% endblock content %}
