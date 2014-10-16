@@ -82,7 +82,11 @@ def new_check_in(request):
         testcheckin = CheckIn.objects.filter(student=student, course=course).count()
         total = CheckIn.objects.filter(course=course).values('student').annotate(dcount=Count('student')).order_by('-dcount')[0]
         charts = CheckIn.objects.filter(student=student).values('course').annotate(dcount=Count('course'))
+
         charts_list = ValuesQuerySetToDict(charts)
+        for each in charts_list :
+            temp = Course.objects.get(pk=each['course'])
+            each['course']=temp.name
         check_in_tot = total['dcount']
         print charts_list,'charts'
         data = {'count':'testcheckin','message':'already_in','checkin_total':check_in_tot,'chart_data':charts_list}

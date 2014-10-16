@@ -30,3 +30,5 @@ class CheckIn(models.Model):
 
     def __unicode__(self):
         return u"{} {} {}".format(self.course, self.student, self.date)
+
+
