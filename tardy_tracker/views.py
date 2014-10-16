@@ -1,16 +1,19 @@
 import datetime
 import json
-from django.core import serializers
+from django.db.models import Count
+
+# from django.http import HttpResponse
+# from django.shortcuts import render
+# from django.views.decorators.csrf import csrf_exempt
+#
+# from django.core import serializers
 from django.http import HttpResponse
 from django.shortcuts import render, render_to_response
-import time
 from django.views.decorators.csrf import csrf_exempt
 from tardy_tracker.models import Course, CheckIn, User
 
-
 def base(request):
     return render(request, 'base.html')
-
 
 def teacher_home(request):
     courses = Course.objects.filter(teacher=request.user)
@@ -43,6 +46,7 @@ def home(request):
             'has_checked_in': has_checked_in,
             'time': current_time
         }
+        print data
         return render(request, 'student_home.html', data)
     else:
         current_time = datetime.datetime.now().time()
@@ -63,15 +67,22 @@ def home(request):
         }
         return render(request, 'teacher_home.html', data)
 
-
 @csrf_exempt
 def new_check_in(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        student = User.objects.get(username=data['student'])
+        stu = (data['student']).lower()
+        student = User.objects.get(username=stu)
         course = Course.objects.get(name=data['course'])
         check_in = CheckIn.objects.create(course=course, student=student)
-        response = serializers.serialize('json', {check_in})
+        testcheckin = CheckIn.objects.filter(student=student, course=course).count()
+        testme = CheckIn.objects.filter(course=course).values('student').annotate(dcount=Count('student')).order_by('-dcount')[0]
+        charts = CheckIn.objects.filter(student=student).values('course').annotate(dcount=Count('course'))
+        print testme,'testme'
+        print charts,'charts'
+        data = {'count':'testcheckin','message':'already_in'}
+        #response = serializers.serialize('json', {data})
+        response = json.dumps(data)
         return HttpResponse(response, content_type='application/json')
 
 
