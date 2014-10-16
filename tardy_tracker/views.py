@@ -8,7 +8,7 @@ from django.db.models import Count
 #
 # from django.core import serializers
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.views.decorators.csrf import csrf_exempt
 from tardy_tracker.models import Course, CheckIn, User
 
@@ -59,7 +59,7 @@ def home(request):
                 })
         courses_today = Course.objects.filter(teacher=request.user)
         data = {
-            'current_course': current_course[0],
+            'current_course': current_course,
             'courses_today': courses_today,
             'current_status': current_status
         }
@@ -82,3 +82,17 @@ def new_check_in(request):
         #response = serializers.serialize('json', {data})
         response = json.dumps(data)
         return HttpResponse(response, content_type='application/json')
+
+
+def course_details(request, course):
+    course_status = []
+    today = datetime.datetime.now().date()
+    active_course = Course.objects.filter(name=course)
+    for student in User.objects.filter(student_courses=active_course[0]):
+        course_status.append({
+            'student': student.username,
+            'logged_in': CheckIn.objects.filter(student=student, course=active_course[0], date=today)
+        })
+    data = {'current_status': course_status}
+
+    return render_to_response('includes/class_details.html', data)
