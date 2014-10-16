@@ -37,10 +37,8 @@ def home(request):
         today = datetime.datetime.now().date()
         has_checked_in = []
         courses = Course.objects.filter(students=request.user, start_time__lte=current_time, end_time__gte=current_time)
-        print courses
         if courses:
             has_checked_in = CheckIn.objects.filter(student=request.user, course=courses[0], date=today)
-            print has_checked_in
         data = {
             'courses': courses,
             'has_checked_in': has_checked_in,
