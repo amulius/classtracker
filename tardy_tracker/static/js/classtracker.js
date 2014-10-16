@@ -5,6 +5,7 @@
 $(document).ready(function() {
 
     $('#checkIn').on('click', function () {
+
         var currentUser = $('#currentUser').data('username');
         var currentCourse = $('#currentCourse').data('course');
 
@@ -21,11 +22,11 @@ $(document).ready(function() {
             success: function(response) {
                 console.log(response);
                 $('#checkInButton').html("Checked In!");
+
             },
             error: function(response) {
                 console.log(response);
             }
         });
     });
-
 });

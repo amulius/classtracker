@@ -3,8 +3,10 @@
 {% block content %}
 <h1>Welcome, {{ user.first_name|capfirst }} {{ user.last_name|capfirst }}</h1>
 <hr>
+
     <p>The time is {{ time }}</p>
     {% if courses %}
+        <p>Test</p>
         {% if has_checked_in %}
             <p>You have already checked in for {{ courses.0.name }} today.</p>
         {% else %}
