@@ -1,19 +1,15 @@
 import datetime
 import json
 from django.db.models import Count
-
-# from django.http import HttpResponse
-# from django.shortcuts import render
-# from django.views.decorators.csrf import csrf_exempt
-#
-# from django.core import serializers
 from django.http import HttpResponse
 from django.shortcuts import render, render_to_response
 from django.views.decorators.csrf import csrf_exempt
 from tardy_tracker.models import Course, CheckIn, User
 
+
 def base(request):
     return render(request, 'base.html')
+
 
 def teacher_home(request):
     courses = Course.objects.filter(teacher=request.user)
@@ -82,7 +78,6 @@ def ValuesQuerySetToDict(vqs):
 def new_check_in(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        # stu = (data['student']).lower()
         student = User.objects.get(username=data['student'])
         course = Course.objects.get(name=data['course'])
         check_in = CheckIn.objects.create(course=course, student=student)
