@@ -37,12 +37,15 @@ def home(request):
         today = datetime.datetime.now().date()
         has_checked_in = []
         courses = Course.objects.filter(students=request.user, start_time__lte=current_time, end_time__gte=current_time)
+        course = Course.objects.get(name=courses[0])
+        total = CheckIn.objects.filter(course=course).values('student').annotate(dcount=Count('student')).order_by('-dcount')[0]
         if courses:
             has_checked_in = CheckIn.objects.filter(student=request.user, course=courses[0], date=today)
         data = {
             'courses': courses,
             'has_checked_in': has_checked_in,
-            'time': current_time
+            'time': current_time,
+            'total' : total['dcount']
         }
         print data
         return render(request, 'student_home.html', data)
@@ -65,6 +68,9 @@ def home(request):
         }
         return render(request, 'teacher_home.html', data)
 
+def ValuesQuerySetToDict(vqs):
+    return [item for item in vqs]
+
 @csrf_exempt
 def new_check_in(request):
     if request.method == 'POST':
@@ -74,11 +80,13 @@ def new_check_in(request):
         course = Course.objects.get(name=data['course'])
         check_in = CheckIn.objects.create(course=course, student=student)
         testcheckin = CheckIn.objects.filter(student=student, course=course).count()
-        testme = CheckIn.objects.filter(course=course).values('student').annotate(dcount=Count('student')).order_by('-dcount')[0]
+        total = CheckIn.objects.filter(course=course).values('student').annotate(dcount=Count('student')).order_by('-dcount')[0]
         charts = CheckIn.objects.filter(student=student).values('course').annotate(dcount=Count('course'))
-        print testme,'testme'
-        print charts,'charts'
-        data = {'count':'testcheckin','message':'already_in'}
+        charts_list = ValuesQuerySetToDict(charts)
+        check_in_tot = total['dcount']
+        print charts_list,'charts'
+        data = {'count':'testcheckin','message':'already_in','checkin_total':check_in_tot,'chart_data':charts_list}
+        print data,'data'
         #response = serializers.serialize('json', {data})
         response = json.dumps(data)
         return HttpResponse(response, content_type='application/json')
