@@ -37,29 +37,14 @@ def base(request):
     return render(request, 'base.html')
 
 
-def teacher_home(request):
-    courses = Course.objects.filter(teacher=request.user)
-    data = {
-        'courses': courses
-    }
-    return render(request, 'teacher_home.html', data)
-
-
-def student_home(request):
-    courses = Course.objects.filter(students=request.user)
-    data = {
-        'courses': courses
-    }
-    return render(request, 'student_home.html', data)
-
-
 def home(request):
     login_data = login_info(request.user)
     if request.user.is_student:
         has_checked_in = []
         total = 0
         if login_data['active_courses']:
-            has_checked_in = CheckIn.objects.filter(student=request.user, course=login_data['active_courses'][0], date=login_data['current_day'])
+            has_checked_in = CheckIn.objects.filter(student=request.user, course=login_data['active_courses'][0],
+                                                    date=login_data['current_day'])
             total = CheckIn.objects.filter(course=login_data['active_courses'][0], student=request.user).count()
         data = {
             'courses': login_data['active_courses'],
@@ -67,7 +52,6 @@ def home(request):
             'time': login_data['current_time'],
             'total': total
         }
-        print data
         return render(request, 'student_home.html', data)
     else:
         current_status = []

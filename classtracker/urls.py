@@ -11,7 +11,7 @@ urlpatterns = patterns('',
 
     url(r'^checkin/$', 'tardy_tracker.views.new_check_in', name='check_in'),
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^teacher/$', 'tardy_tracker.views.teacher_home', name='teacher_home'),
+    # url(r'^teacher/$', 'tardy_tracker.views.teacher_home', name='teacher_home'),
 
     url(r'^course/(?P<course>.+)/$', 'tardy_tracker.views.course_details', name='course_details'),
 )
