@@ -43,7 +43,8 @@ def home(request):
         has_checked_in = []
         total = 0
         if login_data['active_courses']:
-            has_checked_in = CheckIn.objects.filter(student=request.user, course=login_data['active_courses'][0], date=login_data['current_day'])
+            has_checked_in = CheckIn.objects.filter(student=request.user, course=login_data['active_courses'][0],
+                                                    date=login_data['current_day'])
             total = CheckIn.objects.filter(course=login_data['active_courses'][0], student=request.user).count()
         data = {
             'courses': login_data['active_courses'],
