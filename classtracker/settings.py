@@ -30,10 +30,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'django.contrib.contenttypes',
     'tardy_tracker',
     'django.contrib.admin',
     'django.contrib.auth',
-    'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -83,6 +83,7 @@ USE_TZ = True
 LOGIN_REDIRECT_URL = 'home'
 STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'tardy_tracker.User'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 try:
     from local_settings import *
