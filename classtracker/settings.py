@@ -30,10 +30,10 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    'django.contrib.contenttypes',
     'tardy_tracker',
     'django.contrib.admin',
     'django.contrib.auth',
-    'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -53,6 +53,7 @@ ROOT_URLCONF = 'classtracker.urls'
 
 WSGI_APPLICATION = 'classtracker.wsgi.application'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
