@@ -37,22 +37,6 @@ def base(request):
     return render(request, 'base.html')
 
 
-def teacher_home(request):
-    courses = Course.objects.filter(teacher=request.user)
-    data = {
-        'courses': courses
-    }
-    return render(request, 'teacher_home.html', data)
-
-
-def student_home(request):
-    courses = Course.objects.filter(students=request.user)
-    data = {
-        'courses': courses
-    }
-    return render(request, 'student_home.html', data)
-
-
 def home(request):
     login_data = login_info(request.user)
     if request.user.is_student:
@@ -67,7 +51,6 @@ def home(request):
             'time': login_data['current_time'],
             'total': total
         }
-        print data
         return render(request, 'student_home.html', data)
     else:
         current_status = []
