@@ -67,7 +67,6 @@ $(document).ready(function () {
                     .attr('width', width)
                     .attr('height', height)
                     .selectAll('rect').data(bardata)
-                    .selectAll('rect2').data(barcoure)
                     .enter().append('rect')
                     .style('fill', function (d, i) {
                         return colors(i);
@@ -78,8 +77,9 @@ $(document).ready(function () {
                     })
                     .attr('height', 0)
                     .attr('y', height)
-
+                    .selectAll('rect2').data(barcoure)
                     .enter().append('rect2')
+                   // .enter().append('rect2')
                     .on('mouseover', function (d) {
 
                         tooltip.transition()
@@ -96,7 +96,8 @@ $(document).ready(function () {
                             .style('fill', 'yellow')
                     })
 
-                    .enter().append('rect')
+                    .selectAll('rect').data(bardata)
+                    .enter().append('rect2')
                     .on('mouseout', function (d) {
                         d3.select(this)
                             .style('opacity', 1)
@@ -105,6 +106,7 @@ $(document).ready(function () {
 
 
                 myChart.transition()
+                    .selectAll('rect').data(bardata)
                     .enter().append('rect')
                     .attr('height', function (d) {
                         return yScale(d);
