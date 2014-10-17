@@ -1,4 +1,5 @@
     $('.more_info').on('click', function () {
+        console.log($(this));
         var course = $(this).data('course');
         var id = $(this).attr('id');
         $.ajax({
